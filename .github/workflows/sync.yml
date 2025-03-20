@@ -1,8 +1,8 @@
 name: Sync Productboard & Linear
 
 on:
-    push:
-     branches: [main]
+    repository_dispatch:
+        types: [productboard_update, linear_update]
 jobs:
   sync:
     runs-on: ubuntu-latest
