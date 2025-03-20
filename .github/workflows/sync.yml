@@ -1,0 +1,27 @@
+name: Sync Productboard & Linear
+
+on:
+  repository_dispatch:
+    types: [productboard_update, linear_update]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install Dependencies
+        run: pip install requests
+      
+      - name: Run Sync Script
+        env:
+          PRODUCTBOARD_API_KEY: ${{ secrets.PRODUCTBOARD_API_KEY }}
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+        run: python sync_webhooks.py
